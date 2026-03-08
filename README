@@ -8,21 +8,21 @@ The project is structured as a practical study of how moving-object detection ca
 
 The workflow explores several core approaches to motion detection:
 
-- direct visualization of a grayscale image sequence,
-- frame-to-frame absolute differencing,
-- Gaussian smoothing before differencing,
-- median filtering of binary motion masks,
-- temporal derivative operators:
-  - temporal Prewitt
-  - temporal Sobel
-- static background modeling using the average of all frames,
-- adaptive background modeling with exponential updating,
-- post-processing of detection masks using:
-  - median filtering
+- Direct visualization of a grayscale image sequence
+- Frame-to-frame absolute differencing
+- Gaussian smoothing before differencing
+- Median filtering of binary motion masks
+- Temporal derivative operators:
+  - Temporal Prewitt
+  - Temporal Sobel
+- Static background modeling using the average of all frames
+- Adaptive background modeling with exponential updating
+- Post-processing of detection masks using:
+  - Median filtering
   - Gaussian smoothing
-  - morphological opening and closing
-  - erosion and dilation chains,
-- combined pre-smoothing and morphological cleanup.
+  - Morphological opening and closing
+  - Erosion and dilation chains
+- Combined pre-smoothing and morphological cleanup
 
 ## Main Features
 
@@ -32,10 +32,10 @@ The workflow explores several core approaches to motion detection:
 - Average background estimation from the full sequence
 - Adaptive background estimation using exponential moving average
 - Foreground mask refinement with:
-  - thresholding
-  - median filtering
+  - Thresholding
+  - Median filtering
   - Gaussian smoothing
-  - morphology (`imopen`, `imclose`, erosion, dilation)
+  - Morphology (`imopen`, `imclose`, erosion, dilation)
 - Frame-by-frame visualization of motion masks
 - Practical study of threshold sensitivity, noise, and illumination variation
 
@@ -55,19 +55,23 @@ matlab-motion-detection-background-subtraction/
 ## Methodology
 
 ### 1. Sequence Visualization
+
 The script first loads the `car` image sequence and displays the frames in order to inspect motion visually.
 
 ### 2. Frame Difference
-A simple absolute difference between consecutive frames is used to detect moving regions.  
-A fixed threshold converts the grayscale difference image into a binary motion mask.
+
+A simple absolute difference between consecutive frames is used to detect moving regions. A fixed threshold converts the grayscale difference image into a binary motion mask.
 
 ### 3. Smoothing Before Difference
+
 Gaussian smoothing is applied to consecutive frames before differencing in order to reduce high-frequency noise and improve mask stability.
 
 ### 4. Median Filtering of the Motion Mask
+
 Median filtering is used to suppress isolated false positives while preserving object boundaries better than simple averaging.
 
 ### 5. Temporal Derivative Filters
+
 The project includes temporal versions of:
 - **Prewitt**
 - **Sobel**
@@ -75,32 +79,30 @@ The project includes temporal versions of:
 These compare non-adjacent frames to emphasize temporal change more robustly than direct pairwise differencing.
 
 ### 6. Average Background Model
+
 A static background is estimated as the mean of all frames in the sequence, then subtracted from each frame to highlight moving objects.
 
 ### 7. Exponential Background Update
-An adaptive background model is updated recursively using exponential averaging.  
-This allows the background estimate to evolve over time instead of remaining fixed.
+
+An adaptive background model is updated recursively using exponential averaging. This allows the background estimate to evolve over time instead of remaining fixed.
 
 ### 8. Post-Processing of Detection Masks
+
 Several refinement strategies are tested after foreground detection:
-- median filtering,
-- Gaussian smoothing followed by re-thresholding,
-- morphological opening and closing,
-- explicit erosion/dilation chains,
-- combined Gaussian + morphology pipeline.
+
+- Median filtering
+- Gaussian smoothing followed by re-thresholding
+- Morphological opening and closing
+- Explicit erosion/dilation chains
+- Combined Gaussian + morphology pipeline
 
 ## Input Data
 
-The script expects a folder named:
-
-- `car/`
-
-containing grayscale image frames named like:
+The script expects a folder named `car/` containing grayscale image frames named like:
 
 - `0000.pgm`
 - `0001.pgm`
 - `0002.pgm`
-- ...
 
 The code assumes a sequence length of up to 200 frames in several sections.
 
@@ -109,6 +111,7 @@ The code assumes a sequence length of up to 200 frames in several sections.
 See `MATLAB_REQUIREMENTS.md` for the full dependency list.
 
 At minimum, this project expects:
+
 - MATLAB
 - Image Processing Toolbox
 
@@ -116,25 +119,24 @@ At minimum, this project expects:
 
 1. Place the `car/` folder in the project directory.
 2. Open MATLAB.
-3. Open the main script:
-   ```matlab
-   motion_detection_background_subtraction.m
-   ```
+3. Open the main script: `motion_detection_background_subtraction.m`
 4. Run the script section by section or as a whole.
 
 The script will display:
-- raw sequence frames,
-- difference images,
-- thresholded motion masks,
-- background subtraction results,
-- refined binary foreground masks for different methods.
+
+- Raw sequence frames
+- Difference images
+- Thresholded motion masks
+- Background subtraction results
+- Refined binary foreground masks for different methods
 
 ## Outputs
 
 Typical outputs include:
-- grayscale frame playback,
-- motion masks from frame differencing,
-- temporal Prewitt and Sobel detections,
-- average-background subtraction masks,
-- adaptive-background subtraction masks,
-- post-processed foreground masks using smoothing and morphology.
+
+- Grayscale frame playback
+- Motion masks from frame differencing
+- Temporal Prewitt and Sobel detections
+- Average-background subtraction masks
+- Adaptive-background subtraction masks
+- Post-processed foreground masks using smoothing and morphology
